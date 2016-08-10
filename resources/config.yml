@@ -1,0 +1,12 @@
+# Whether or not to disable the chatfilter
+lbchatfilter: true
+
+# Whether or not the chatfilter can
+# be managed by anyone other than OP
+onlyOp: true
+
+# Array of usernames to a whitelist
+users:
+    humerusj
+    williamtdr
+    brandon15811

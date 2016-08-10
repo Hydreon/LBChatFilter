@@ -1,0 +1,18 @@
+name: LBChatFilter
+main: LBChatFilter\Main
+version: 0.0.1
+api: [1.4.0]
+load:
+author: LBSG
+description: Lifeboat ChatFilter Plugin For All
+website: https://lbsg.net
+commands:
+ lbantihacks:
+  description: "Manages LBChatFilter"
+  aliases: [cf, chatfilter]
+  usage: "/lbchatfilter <command> <args>"
+  permission: lbchatfilter
+permissions:
+ lbchatfilter:
+  default: op
+  description: "Commands that handle all ChatFilter things"
