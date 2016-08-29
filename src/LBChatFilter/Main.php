@@ -18,6 +18,13 @@ use pocketmine\event\player\PlayerChatEvent;
 class Main extends PluginBase implements Listener {
 
     /**
+     * The main users array
+     *
+     * @var array
+     */
+    public $users = [];
+
+    /**
      * Loads the plugin
      *
      * @return null
@@ -44,10 +51,13 @@ class Main extends PluginBase implements Listener {
             return;
         }
 
-        $this->users = $this->getConfig()->get('users');
+        foreach($this->getConfig()->get('users') as $v => $k) {
+            $this->users[] = $k;
+        }
 
         /**
          * Initalize the ChatFilter
+         *
          * @type ChatFilter
          */
         $this->filter = new ChatFilter();
@@ -70,33 +80,43 @@ class Main extends PluginBase implements Listener {
         $subcommand = strtolower(array_shift($args));
         switch ($subcommand) {
             case "adduser":
-                if(isset($args[1])) {
-                    if(($player = $this->getServer()->getPlayerExact($args[1])) instanceof Player) {
+                if(isset($args[0])) {
+                    if(($player = $this->getServer()->getPlayerExact($args[0])) instanceof Player) {
                         $this->users[] = $player->getDisplayName();
                     } else {
-                        $this->users[] = $args[1];
+                        $this->users[] = $args[0];
                     }
+                    $sender->sendMessage(TextFormat::BLUE . '[LBChatFilter] Added user: ' . $args[0]);
                     return true;
                 } else {
                     return false;
                 }
                 break;
             case "remuser":
-                if(isset($args[1])) {
-                    if(($player = $this->getServer()->getPlayerExact($args[1])) instanceof Player) {
-                        if(isset($this->users[$player->getDisplayName()]))
-                            unset($this->users[$player->getDisplayName()]);
+                if(isset($args[0])) {
+                    if(($player = $this->getServer()->getPlayerExact($args[0])) instanceof Player) {
+                        if(($key = array_search($player->getDisplayName(), $this->users)) !== false)
+                            unset($this->users[$key]);
                     } else {
-                        if(isset($this->users[$args[1]]))
-                            unset($this->users[$args[1]]);
+                        if(($key = array_search($args[0], $this->users)) !== false)
+                            unset($this->users[$key]);
                     }
+                    $sender->sendMessage(TextFormat::RED . '[LBChatFilter] Removed user: ' . $args[0]);
                     return true;
                 } else {
                     return false;
                 }
                 break;
-            default:
+            case "listusers":
+                $sender->sendMessage(TextFormat::GREEN . '[LBChatFilter] Users on the whitelist: ' . implode(', ', $this->users));
                 return true;
+                break;
+            case "help":
+                $sender->sendMessage(TextFormat::GREEN . '[LBChatFilter] Available commands: adduser, listusers, remuser');
+                return true;
+                break;
+            default:
+                return false;
         }
     }
 

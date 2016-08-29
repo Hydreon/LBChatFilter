@@ -24,6 +24,11 @@ class ChatFilter {
 		$this->enableMessageFrequency = $enableMsgFrequency;
 	}
 
+	/**
+	 * Clears the recent chat filter (for spam protection)
+	 *
+	 * @return null
+	 */
 	public function clearRecentChat() {
  		$this->recentChat = array();
  	}

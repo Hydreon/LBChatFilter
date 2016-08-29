@@ -7,7 +7,7 @@ author: LBSG
 description: Lifeboat ChatFilter Plugin For All
 website: https://lbsg.net
 commands:
- lbantihacks:
+ lbchatfilter:
   description: "Manages LBChatFilter"
   aliases: [cf, chatfilter]
   usage: "/lbchatfilter <command> <args>"
